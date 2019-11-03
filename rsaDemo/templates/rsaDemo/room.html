@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+<head>
+    <meta charset="utf-8"/>
+    <title>{{ room_name_json }}</title>
+</head>
+
+{% block content %}
+    <div class="container" style="padding: 20px;width: 110%">
+        <h4>Secure Chat | <span style="color: yellow;">{{user.username}}</span>-------------------------------------------------------------<small><a href="/home" style="text-decoration: none; color: pink;">Home</a></small></h4>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <textarea id="chat-log" cols="60" rows="16"></textarea><br/>
+            </div>
+            <div class="col-sm-6" >
+                <form method="POST" style="background-color: teal; padding: 20px;">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input class="btn" type="submit" value="Encrypt message" style="color: black; background-color: white; border-radius: 10px;">
+                </form>
+            </div>
+        </div>
+        <div class="container">
+                <input class="btn btn-danger" id="chat-message-submit" type="button" value="Send Encrypted message">
+
+                <a href="decrypt" class="btn btn-danger" type="button">Decrypt message</a>
+                <br><br>
+                <div class="row" style="background-color: white; padding: 15px;">
+                    <div class="col-sm-6">
+                        <p style="color: black; text-align: center;">To view your chat history <a style="color: red;" href="chat-log">click here</a></p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p style="color: black;text-align: center;">You can logout by clicking <a style="color: red;" href="{% url 'logout' %}">here</a></p>
+                    </div>
+                </div>
+
+       </div>
+    </div>
+
+    
+    <script>
+        var roomName = {{ room_name_json }};
+
+        var chatSocket = new WebSocket(
+            'ws://' + window.location.host +
+            '/ws/chat/' + roomName + '/');
+
+        chatSocket.onmessage = function(e) {
+            var data = JSON.parse(e.data);
+            var message = data['message'];
+            document.querySelector('#chat-log').value += (message + '\n');
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        //Focus the input area to type, 
+        document.querySelector('#chat-message-input').focus();
+
+        //Typing inside the input area
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                //on clicking the submit button, run the below function
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            time = new Date();
+            var val = "AM";
+            hours = time.getHours();
+            if(hours == 0){
+                hours = 12;
+                val = "AM";
+            }
+            if(hours > 12){
+                hours = hours-12;
+                val = "PM";
+            }
+
+            mins = time.getMinutes();
+            secs = time.getSeconds();
+
+            var messageInputDom = document.querySelector('#chat-message-input');
+            var u = "{{user.username}}";
+            var message = "Message sent by " + u + " at time " + hours + ':' + mins + ':' + secs + " " + val + "\n\n";
+            message += "Public key so generated is\t {{public_key}}\n\n";
+            message += "The modulus of RSA is\t {{modulus}}\n\n";
+            message += "Euler's Totient is\t {{phi}}";
+            message += "\n\nThe cipher text generated using RSA is\t {{ciphertext}}\n";
+
+            chatSocket.send(JSON.stringify({
+                'message': message
+            }));
+
+            messageInputDom.value = '';
+        };
+
+    </script>
+{% endblock %}

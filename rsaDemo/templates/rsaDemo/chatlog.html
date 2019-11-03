@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+	
+
+	<div class="container" style="padding: 50px;">
+		{% if flag %}
+			<p>You have some unread messages. Decrypt the unread messages to store them in the chat log. <a href="decrypt">Click to decrypt</a></p>
+			
+		{% endif %}
+
+		<h4>Chat History Of All Read Messages</h4>
+		<a class="btn" href="/home/createRoom/{{room}}/" style="float: right;">Go back</a>
+		{% if flag1 %}
+			<div class="container center white-box" style="margin-top: 50px; width: 60%; text-align: center; padding: 30px;">No messages have been sent yet.</div>
+		{% endif %}
+		{% for chat in chatlog %}
+			<div class="container" style="padding: 50px; margin-bottom: 10px; border: solid 1px grey; border-radius: 15px; background-color: teal;">
+
+				<h6 style="float: left; padding: 35px;"><span style="color: orange"> {{chat.sender}}</span> </h6>
+				<p style="color: yellow;">{{chat.plaintext}}</p>
+				
+				<div class="container">
+					Encrypted using {{chat.bits}} keys | {{chat.time}}
+					<hr>
+					<p style="overflow: scroll;">Public key used for encryption : {{chat.publicKey}}</p>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

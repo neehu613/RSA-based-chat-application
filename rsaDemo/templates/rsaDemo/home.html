@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div class="container">
+		<p>
+	  		<a class="btn" href="{% url 'logout' %}" style="float: right; background-color: teal;">logout</a>
+	  	</p>
+	</div>
+	<div class="ml-6" style="padding: 50px;">
+	{% if user.is_authenticated %}
+		<div class="container">
+	  		<h2>Hi <span style="color: pink;">{{ user.username }}</span>, welcome to Secure Chat!</h2>
+	  	</div>
+	  	<hr>
+	  	<div class="row">
+	  		
+		  	<div class="col-sm-4 cool-link">
+		  		<a style="text-decoration:none;"  href="{% url 'rsaDemo:home' %}createRoom">
+		  		<div class="square">
+				  	<h4 style="text-align: center;color: yellow; margin-left: 70px;">Create room</h4>
+		  		</div>
+		  		</a>
+		  	</div>
+		  	
+
+		  	<div class="col-sm-4 cool-link">
+		  		<a style="text-decoration:none;" href="{% url 'rsaDemo:home' %}joinRoom">
+		  		<div class="square" >
+				  	<h4 style="text-align: center;color: yellow; margin-left: 80px;">Join room</h4>
+		  		</div>
+		  		</a>
+		  	</div>
+
+		  	<div class="col-sm-4 cool-link">
+		  		<a style="text-decoration:none;" href="{% url 'rsaDemo:home' %}privateChat">
+		  		<div class="square" >
+				  	<h4 style="text-align: center;color: yellow; margin-left: 40px;">Registered Users</h4>
+		  		</div>
+		  		</a>
+		  	</div>
+
+		</div>
+
+	{% else %}
+		<div class="container">
+		  <p>You are not logged in</p>
+		  <a href="{% url 'login' %}">login</a>
+		</div>
+	{% endif %}
+	</div>
+	
+	
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	<div class="container center white-box" style="margin-top: 30px; width: 70%">
+		<h4>Enter the password to gain access to the room <span class="text-primary">{{room.roomName}}</h4>
+			<hr>
+		<form method="POST">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<input type="submit" value="Submit">
+		</form>
+
+	</div>
+
+{% endblock %}

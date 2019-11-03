@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container center white-box" style="margin-top: 40px; width: 70%;">
+	<a href="/home" style="text-decoration: none;color: yellow;float: right;">Go back</a>
+	<div class="row">
+		<div class="col-sm-6">
+	  	<h4 style="text-align: center;">Private Chatrooms</h4>
+	  	<hr>
+	  	{% for room in rooms %}
+		  	{% if room.roomType == 'private' %}
+		  		<ul>
+		  			<li>
+		  				<strong style="color: yellow;">{{room.roomName}}</strong>
+		  				<a href="{% url 'rsaDemo:createRoom' %}{{room.roomName}}/verifyIdentity" style="float: right; text-decoration: none;">Request access</a>
+		  			</li>
+		  		</ul>
+		  	{% endif %}
+		{% endfor %}
+		</div>
+
+		<div class="col-sm-6">
+	  	<h4 style="text-align: center;">Public Chatrooms</h4>
+	  	<hr>
+	  	{% for room in rooms %}
+		  	{% if room.roomType == 'public' %}	
+		  		<ul>
+		  			<li>
+		  				<strong style="color: yellow;">{{room.roomName}}</strong>
+		  				<a href="{% url 'rsaDemo:createRoom' %}{{room.roomName}}" style="float: right; text-decoration: none;">Join Now</a>
+		  			</li>
+		  		</ul>
+		  	{% endif %}
+		{% endfor %}
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

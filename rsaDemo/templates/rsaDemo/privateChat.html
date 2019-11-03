@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container center white-box" style="margin-top: 80px; padding: 30px;">
+	<h4>Registered users</h4>
+	<hr>
+	<ul style="text-decoration: none;">
+		{% for user in users %}
+			<li><strong>{{user.username}}</strong></li>
+		{% endfor %}
+	</ul>
+	<a href="/home" style="text-decoration: none;color: yellow;">Go back</a>
+</div>
+
+{% endblock %}

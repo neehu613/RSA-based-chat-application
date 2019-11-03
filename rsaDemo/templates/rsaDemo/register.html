@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Secure Chat{% endblock %}
+
+{% block content %}
+	<div class="container center white-box" style="margin-top: 30px;">
+		<h2>Sign Up</h2>
+		<hr>
+		<form method="POST">
+			{% csrf_token %}
+
+			{% for field in form %}
+			  <p>
+			    {{ field.label_tag }}<br>
+			    {{ field }}
+			    {% for error in field.errors %}
+			      <p style="color: yellow;">{{ error }}</p>
+			    {% endfor %}
+			  </p>
+			{% endfor %}
+			<input type="submit" value="Sign Up">
+			<hr>
+			<div class="ml-4">
+				<small>Already have an account? <a style="color: yellow;" href="{% url 'login' %}">login</a></small>
+			</div>
+		</form>
+	</div>
+
+{% endblock %}

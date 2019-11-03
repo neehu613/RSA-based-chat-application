@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+	{% if user.is_authenticated %}
+		<div class="container">
+	  		Hi {{ user.username }}!
+	  	</div>
+	  	
+	  	<div class="container">
+			<form method="POST">
+				{% csrf_token %}
+				{{ form.as_p }}
+				<input type="submit" value="Generate Public Key">
+			</form>
+		</div>
+
+		<p>
+	  		<a href="{% url 'logout' %}">logout</a>
+	  	</p>
+	  	
+	{% else %}
+	  <p>You are not logged in</p>
+	  <a href="{% url 'login' %}">login</a>
+	{% endif %}
+	
+{% endblock %}

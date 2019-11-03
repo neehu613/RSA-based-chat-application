@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div class="container center white-box" style="margin-top: 30px; width: 75%;">
+		{% if flag %}
+			<div class="container" style="padding: 30px;">
+				<h4 style="text-align: center;">No new messages to decrypt</h4>
+				<a href="/home/createRoom/{{room}}/" style="color: yellow; float: right; text-decoration: none;">Go back</a>
+			</div>
+		{% endif %}
+		{% for element in data %}
+		<div class="container" style="padding: 30px;">
+			<h4 style="overflow: scroll;">Cipher Text : {{element.ciphertext}}</h4>
+			<h5 style="float: right;">Sent by <span style="color: yellow;">{{element.sender}}</span> using <span style="color: orange;">{{element.bits}}</span> bit keys | Time : <span style="color: pink;">{{element.time}}</span></h5>
+			<button onclick='myFunction("{{element.ciphertext}}")'>Show deciphered message</button>
+			<br>
+
+			<div class="container" id="{{element.ciphertext}}" style="display: none;">
+				<hr>
+				<h4>Deciphered message: <span style="color: yellow;">{{element.deciphered_text}}</span></h4>
+			</div>
+			<a href="/home/createRoom/{{room}}/" style="color: yellow; float: right; text-decoration: none;">Go back</a>
+		</div>
+		{% endfor %}
+	</div>
+	<script>
+		function myFunction(ele) {
+			var x = document.getElementById(ele);
+			if (x.style.display === "none"){
+			    x.style.display = "block";
+			}
+			else{
+			    x.style.display = "none";
+			}
+		}
+
+
+
+	</script>    	
+{% endblock %}

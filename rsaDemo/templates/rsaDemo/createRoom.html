@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div class="container center white-box" style="margin-top: 100px; width: 45%;">
+		<a href="/home" style="text-decoration: none;color: yellow;float: right;">Go back</a>
+		<h2>Create a chatroom!</h2>
+		<hr>
+		<form method="POST">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<input type="submit" value="Create">
+		</form>
+	</div>
+
+{% endblock %}
+
