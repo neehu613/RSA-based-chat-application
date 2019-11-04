@@ -11,6 +11,7 @@ python manage.py migrate
 
 Run the local server using the command
 ```
+sudo docker run -p 6379:6379 -d redis:2.8
 python manage.py runserver
 ```
 
