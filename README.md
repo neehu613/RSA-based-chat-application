@@ -4,7 +4,14 @@ A django based chat application where you can send messages encrypted using RSA 
 Make sure you install all dependencies first.
 Open the project directory and run the following commands:
 ```
-pip install -r requirements.txt
+pip install django
+pip install channels
+pip install channels-redis
+pip install redis
+```
+
+Setting up of the database:
+```
 python manage.py makemigrations
 python manage.py migrate
 ```
